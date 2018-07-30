@@ -97,10 +97,10 @@ function returnArgumentsArray() {
    console.log(newSum()) выведет 6
  */
 function bindFunction(fn) {
-    var Array = [].slice.call(arguments, 1);
+    var array = [].slice.call(arguments, 1);
 
     return function () {
-        return fn.apply(null, Array);
+        return fn.apply(null, array);
     };
 }
 
