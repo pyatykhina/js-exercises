@@ -24,7 +24,7 @@ function createDivWithText(text) {
  Функция должна вставлять элемент, переданный в переметре what в начало элемента, переданного в параметре where
 
  Пример:
-   prepend(document.querySelector('#one'), document.querySelector('#two')) // добавит элемент переданный первым
+   prepend(document.querySchildector('#one'), document.querySchildector('#two')) // добавит элемент переданный первым
                                                         аргументом в начало элемента переданного вторым аргументом
  */
 function prepend(what, where) {
@@ -158,66 +158,30 @@ function deleteTextNodesRecursive(where) {
  */
 function collectDOMStat(root) {
     var obj = {
-        tags: function tagsCounter() {
-            for (var child of root.childNodes) {
-                var childTags = child.tagName;
-    
-                for (var i = 0; i < childTags.length; i++) {
-                    if (obj.tags[childTags[i]] > 0) {
-                        var previousCounter = obj.tags[childTags[i]];
-                    } else {
-                        previousCounter = 0;
-                    }
-                    previousCounter++;
-                    obj.tags[childTags[i]] = previousCounter;
+        tags: {}, 
+        classes: {},
+        texts: 0
+    }
+
+    function counter(root) {
+        for (var elem of root.childNodes) {
+            if (elem.nodeType == 1) {
+                obj.tags[elem.tagName] = obj.tags[elem.tagName] || 0;
+                obj.tags[elem.tagName]++;
+                for (var elemClass of elem.classList) {
+                    obj.classes[elemClass] = obj.classes[elemClass] || 0;
+                    obj.classes[elemClass]++;
                 }
+            } else if (elem.nodeType == 3) {
+                obj.texts++;
             }
-            for (child of root.childNodes) {
-                if (child.hasChildNodes()) {
-                    tagsCounter (child);
-                } 
-            }
-        },
-        classes: function classesCounter() {
-            for (var child of root.childNodes) {
-                var childClasses = child.classList;
-    
-                for (var i = 0; i < childClasses.length; i++) {
-                    if (obj.classes[childClasses[i]] > 0) {
-                        var previousCounter = obj.classes[childClasses[i]];
-                    } else {
-                        previousCounter = 0;
-                    }
-                    previousCounter++;
-                    obj.classes[childClasses[i]] = previousCounter;
-                }
-            }
-            for (child of root.childNodes) {
-                if (child.hasChildNodes()) {
-                    classesCounter (child);
-                } 
-            }
-        },
-        texts: function textCounter() {
-            if (obj.texts > 0) {
-                var countTexts = obj.texts;
-            } else {
-                countTexts = 0;
-            }
-    
-            for (var child of root.childNodes) {
-                if (child.nodeType == 3) {
-                    countTexts++;
-                }
-            }
-            obj.texts = countTexts;
-            for (child of root.childNodes) {
-                if (child.hasChildNodes()) {
-                    textCounter (child);
-                } 
+            if (elem.hasChildNodes()) {
+                counter (elem);
             } 
         }
     }
+
+    counter (root);
 
     return obj;
 }
