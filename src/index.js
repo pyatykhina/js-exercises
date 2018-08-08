@@ -24,7 +24,7 @@ function createDivWithText(text) {
  Функция должна вставлять элемент, переданный в переметре what в начало элемента, переданного в параметре where
 
  Пример:
-   prepend(document.querySchildector('#one'), document.querySchildector('#two')) // добавит элемент переданный первым
+   prepend(document.querySchildector('#one'), document.querySelector('#two')) // добавит элемент переданный первым
                                                         аргументом в начало элемента переданного вторым аргументом
  */
 function prepend(what, where) {
